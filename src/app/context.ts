@@ -10,6 +10,7 @@ export function getInstance(): Context {
 
 type Configuration = {
   outputDirectory?: string;
+  templatesDirectory?: string;
   apiFileName: string;
   functionsFileName: string;
   logLevel?: LogLevel;
@@ -82,6 +83,10 @@ export class Context {
       logger.debug(e);
       exit(1);
     }
+  }
+
+  public setTemplatesDirectory(templatesDirectory: string) {
+    this.config.templatesDirectory = path.resolve(templatesDirectory);
   }
 
   public getOutputDirectory(): string {
@@ -165,6 +170,16 @@ export class Context {
   }
 
   public getFunctionsTsFileTemplateDirectory(): string {
+    if (this.config.templatesDirectory) {
+      try {
+        const customTemplatesPath = path.resolve(
+          this.config.templatesDirectory,
+          FUNCTIONS_TS_FILE_TEMPLATE_DIRECTORY,
+        );
+        if (fs.existsSync(customTemplatesPath)) return customTemplatesPath;
+      } catch (ignored) {}
+    }
+
     return path.resolve(
       this.getTemplatesDirectory(),
       FUNCTIONS_TS_FILE_TEMPLATE_DIRECTORY,
@@ -172,6 +187,16 @@ export class Context {
   }
 
   public getApiTsFileTemplateDirectory(): string {
+    if (this.config.templatesDirectory) {
+      try {
+        const customTemplatesPath = path.resolve(
+          this.config.templatesDirectory,
+          API_TS_FILE_TEMPLATE_DIRECTORY,
+        );
+        if (fs.existsSync(customTemplatesPath)) return customTemplatesPath;
+      } catch (ignored) {}
+    }
+
     return path.resolve(
       this.getTemplatesDirectory(),
       API_TS_FILE_TEMPLATE_DIRECTORY,

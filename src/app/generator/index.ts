@@ -30,7 +30,7 @@ export async function generateCode(
     const routeComponents: functionsTsGenerator.RouteComponents = {
       route: route,
       params: routeTypes.getAllParamsRendered(route, parsedSchemaStore),
-      returnType: routeTypes.getResponseSchema(route),
+      returnType: paramGenerator.renderParams(routeTypes.getResponseSchema(route), parsedSchemaStore),
     };
 
     routeComponentsArray.push(routeComponents);
