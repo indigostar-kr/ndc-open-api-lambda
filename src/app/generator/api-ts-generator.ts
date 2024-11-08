@@ -109,6 +109,18 @@ export async function generateApiTsCode(
         );
         return originalSchema;
       },
+      onPreBuildRoutePath: (routePath: string) => {
+        return routePath.replace(
+          /(?::((?:(?:[A-z]){1}(?:[a-zA-Z0-9]-?_?\.?)+)(?:[0-9]+)?):?)/g,
+          "%3A$1",
+        );
+      },
+      onBuildRoutePath: (data: swaggerTypescriptApi.BuildRoutePath) => {
+        return {
+          ...data,
+          route: data.route.replace("%3A", ":")
+        };
+      },
     },
   });
 

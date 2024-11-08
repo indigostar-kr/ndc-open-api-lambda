@@ -3,6 +3,8 @@ packagingDefinition:
 supportedEnvironmentVariables:
   - name: NDC_OAS_DOCUMENT_URI
     description: "The URI of OAS Document. If not provided, the connector will look for `/etc/connector/swagger.json` by default"
+  - name: NDC_OAS_TEMPLATES_DIRECTORY
+    description: "This templates is the directory path for customizing templates."
   - name: NDC_OAS_BASE_URL
     description: "Base url of the API"
   - name: NDC_OAS_LAMBDA_PRETTY_LOGS

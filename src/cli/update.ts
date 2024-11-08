@@ -29,6 +29,11 @@ Further reading:
       .env("HASURA_CONFIGURATION_DIRECTORY"),
   )
   .addOption(
+    new Option("--templates-directory <directory>", "templates directory")
+      .default("./templates")
+      .env("NDC_OAS_TEMPLATES_DIRECTORY"),
+  )
+  .addOption(
     new Option("-b --base-url <value>", "Base URL of the API")
       .env("NDC_OAS_BASE_URL")
       .argParser(headerParser), // TODO why??
@@ -48,6 +53,7 @@ Further reading:
     main(
       args.openApi,
       args.outputDirectory,
+      args.templatesDirectory,
       args.overwrite === "true",
       args.baseUrl,
     );
@@ -70,12 +76,14 @@ function headerParser(value: string, previousValue: string[]): string[] {
 async function main(
   openApi: string,
   outputDir: string,
+  templatesDirectory: string,
   overwrite: boolean,
   baseUrl: string | undefined,
 ) {
   context.getInstance().setOverwriteFiles(overwrite);
   context.getInstance().setOpenApiUri(openApi);
   context.getInstance().setOutputDirectory(outputDir);
+  context.getInstance().setTemplatesDirectory(templatesDirectory);
 
   try {
     await app.runApp({
